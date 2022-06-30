@@ -17,12 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
+from projects.views import ProjectViewSet, ContributorViewSet, IssueViewSet, CommentViewSet
+
 projects = routers.SimpleRouter()
+projects.register('projects', ProjectViewSet, basename='projects')
+projects.register('contributors', ContributorViewSet, basename='contributors')
+projects.register('issues', IssueViewSet, basename='issues')
+projects.register('comments', CommentViewSet, basename='comments')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-browser-auth/', include('rest_framework.urls')),
     path('', include('dj_rest_auth.urls')),
     path('signup/', include('dj_rest_auth.registration.urls')),
-    path('', include('projects.urls')),
+    path('', include(projects.urls)),
 ]
