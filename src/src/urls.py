@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from projects.views import ProjectViewSet, ContributorViewSet, IssueViewSet, CommentViewSet
 
@@ -29,7 +30,8 @@ projects.register('comments', CommentViewSet, basename='comments')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-browser-auth/', include('rest_framework.urls')),
-    path('', include('dj_rest_auth.urls')),
     path('signup/', include('dj_rest_auth.registration.urls')),
+    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('', include(projects.urls)),
 ]
