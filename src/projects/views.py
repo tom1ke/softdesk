@@ -19,7 +19,7 @@ class MultipleSerializerMixin:
         return super().get_serializer_class()
 
 
-class ProjectViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
+class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = ProjectListSerializer
     detail_serializer_class = ProjectDetailSerializer
@@ -29,7 +29,7 @@ class ProjectViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
         return Project.objects.all()
 
 
-class ContributorViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
+class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = ContributorSerializer
     permission_classes = [IsAuthenticated]
@@ -38,7 +38,7 @@ class ContributorViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
         return Contributor.objects.all()
 
 
-class IssueViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
+class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = IssueListSerializer
     detail_serializer_class = IssueDetailSerializer
@@ -52,7 +52,7 @@ class IssueViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
         return queryset
 
 
-class CommentViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
+class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
 
     serializer_class = CommentListSerializer
     detail_serializer_class = CommentDetailSerializer
