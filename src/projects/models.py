@@ -9,6 +9,9 @@ class Project(models.Model):
     type = models.CharField(max_length=100)
     author = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class Contributor(models.Model):
     user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
@@ -27,9 +30,15 @@ class Issue(models.Model):
     author = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
     assignee = models.ForeignKey(to=get_user_model(), null=True, on_delete=models.SET_NULL, related_name='on_task')
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     content = models.TextField(max_length=2000)
     date_created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
     issue = models.ForeignKey(to=Issue, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.author
