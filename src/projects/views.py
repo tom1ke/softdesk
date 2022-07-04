@@ -27,7 +27,7 @@ class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
     permission_classes = [IsAuthorAndOrIsAuthenticated]
 
     def get_queryset(self):
-        return Project.objects.all()
+        return Project.objects.filter(author=self.request.user)
 
 
 class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
@@ -36,7 +36,7 @@ class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
     permission_classes = [IsAuthorAndOrIsAuthenticated]
 
     def get_queryset(self):
-        return Contributor.objects.all()
+        return Contributor.objects.filter(project=self.kwargs['project_id'])
 
 
 class IssueViewSet(MultipleSerializerMixin, ModelViewSet):

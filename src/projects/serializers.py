@@ -16,11 +16,16 @@ class ProjectDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['title', 'author', 'type', 'description', 'issues']
+        fields = ['title', 'author', 'type', 'description', 'contributors', 'issues']
 
     def get_issues(self, instance):
         queryset = instance.issues.all()
         serializer = IssueListSerializer(queryset, many=True)
+        return serializer.data
+
+    def get_contributors(self, instance):
+        queryset = instance.contributors.all()
+        serializer = ContributorSerializer(queryset, many=True)
         return serializer.data
 
 
