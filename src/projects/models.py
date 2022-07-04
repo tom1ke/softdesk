@@ -28,7 +28,7 @@ class Issue(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE, related_name='issues')
     author = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
-    assignee = models.ForeignKey(to=get_user_model(), null=True, on_delete=models.SET_NULL, related_name='assignees')
+    assignee = models.ForeignKey(to=get_user_model(), null=True, on_delete=models.SET_NULL, related_name='assignee')
 
     def __str__(self):
         return self.title
