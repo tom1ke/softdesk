@@ -45,7 +45,7 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Issue.objects.all()
+        queryset = Issue.objects.filter(project=self.kwargs['project_id'])
         project_id = self.request.GET.get('project_id')
         if project_id is not None:
             queryset = queryset.filter(project_id=project_id)
@@ -59,7 +59,7 @@ class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Comment.objects.all()
+        queryset = Comment.objects.filter(issue=self.kwargs['issue_id'])
         issue_id = self.request.GET.get('issue_id')
         if issue_id is not None:
             queryset = queryset.filter(issue_id=issue_id)

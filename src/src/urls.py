@@ -22,9 +22,15 @@ from projects.views import ProjectViewSet, ContributorViewSet, IssueViewSet, Com
 
 projects = routers.SimpleRouter()
 projects.register('projects', ProjectViewSet, basename='projects')
-projects.register('contributors', ContributorViewSet, basename='contributors')
-projects.register('issues', IssueViewSet, basename='issues')
-projects.register('comments', CommentViewSet, basename='comments')
+
+contributors = routers.SimpleRouter()
+contributors.register('contributors', ContributorViewSet, basename='contributors')
+
+issues = routers.SimpleRouter()
+issues.register('issues', IssueViewSet, basename='issues')
+
+comments = routers.SimpleRouter()
+comments.register('comments', CommentViewSet, basename='comments')
 
 
 urlpatterns = [
@@ -34,4 +40,7 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('', include(projects.urls)),
+    path('projects/<int:project_id>/', include(contributors.urls)),
+    path('projects/<int:project_id>/', include(issues.urls)),
+    path('projects/<int:project_id>/issues/<int:issue_id>/', include(comments.urls)),
 ]
