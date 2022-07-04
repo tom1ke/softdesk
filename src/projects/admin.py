@@ -4,7 +4,7 @@ from .models import Project, Contributor, Issue, Comment
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'type')
+    list_display = ('title', 'id', 'author', 'type')
 
 
 class ContributorAdmin(admin.ModelAdmin):
