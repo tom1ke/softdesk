@@ -1,6 +1,4 @@
-from rest_framework.permissions import BasePermission
-
-from .models import Contributor
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class IsAuthorAndOrIsAuthenticated(BasePermission):
@@ -9,5 +7,5 @@ class IsAuthorAndOrIsAuthenticated(BasePermission):
         return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        return obj.author == request.user
+        return True if request.method in SAFE_METHODS else obj.author == request.user
 
