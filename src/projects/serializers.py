@@ -3,11 +3,23 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from .models import Project, Contributor, Issue, Comment
 
 
+class ContributorSerializer(ModelSerializer):
+
+    class Meta:
+        model = Contributor
+        fields = ['user', 'project', 'permission', 'role']
+
+
 class ProjectListSerializer(ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['title', 'author', 'type']
+        fields = ['title', 'author', 'type', 'description']
+
+    def create(self, validated_data):
+        project = Project.objects.create(**validated_data)
+        Contributor.objects.create(project=project, role='author', user=project.author)
+        return project
 
 
 class ProjectDetailSerializer(ModelSerializer):
@@ -27,13 +39,6 @@ class ProjectDetailSerializer(ModelSerializer):
         queryset = instance.contributors.all()
         serializer = ContributorSerializer(queryset, many=True)
         return serializer.data
-
-
-class ContributorSerializer(ModelSerializer):
-
-    class Meta:
-        model = Contributor
-        fields = ['user', 'project', 'permission', 'role']
 
 
 class IssueListSerializer(ModelSerializer):
