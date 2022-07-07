@@ -8,15 +8,15 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class ContributorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'project', 'permission', 'role')
+    list_display = ('user', 'id', 'project', 'permission', 'role')
 
 
 class IssueAdmin(admin.ModelAdmin):
-    list_display = ('title', 'project', 'author', 'tag', 'status', 'date_created')
+    list_display = ('title','id', 'project', 'author', 'tag', 'status', 'date_created')
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('author', 'issue', 'date_created')
+    list_display = ('author', 'id', 'issue', 'date_created')
 
 
 admin.site.register(Project, ProjectAdmin)
