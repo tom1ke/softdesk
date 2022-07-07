@@ -6,7 +6,7 @@ from .permissions import IsAuthorAndOrIsAuthenticated
 from .models import Project, Contributor, Issue, Comment
 from .serializers import (
     ProjectListSerializer, ProjectDetailSerializer, ContributorSerializer, IssueListSerializer, IssueDetailSerializer,
-    CommentListSerializer, CommentDetailSerializer
+    CommentSerializer
 )
 
 
@@ -55,8 +55,7 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
 
 class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
 
-    serializer_class = CommentListSerializer
-    detail_serializer_class = CommentDetailSerializer
+    serializer_class = CommentSerializer
     permission_classes = [IsAuthorAndOrIsAuthenticated]
 
     def get_queryset(self):
