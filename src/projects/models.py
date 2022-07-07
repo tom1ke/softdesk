@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import fields
 from django.contrib.auth import get_user_model
 
 
@@ -14,9 +13,12 @@ class Project(models.Model):
 
 
 class Contributor(models.Model):
+
+    PERMISSION_CHOICES = [('RESTRICTED', 'RESTRICTED'), ('ALL', 'ALL')]
+
     user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE, related_name='contributors')
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE, related_name='contributors')
-    permission = fields.ChoiceField
+    permission = models.CharField(max_length=100, choices=PERMISSION_CHOICES)
     role = models.CharField(max_length=100)
 
 
