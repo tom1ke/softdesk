@@ -7,7 +7,7 @@ class ContributorSerializer(ModelSerializer):
 
     class Meta:
         model = Contributor
-        fields = ['user', 'project', 'permission', 'role']
+        fields = ['user', 'project', 'role']
 
 
 class ProjectListSerializer(ModelSerializer):
@@ -45,7 +45,7 @@ class IssueListSerializer(ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ['tag', 'title', 'project', 'author', 'date_created', 'status']
+        fields = ['tag', 'title', 'project', 'author', 'date_created', 'status', 'assignee', 'description']
 
 
 class IssueDetailSerializer(ModelSerializer):
