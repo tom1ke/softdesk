@@ -7,7 +7,7 @@ class ContributorSerializer(ModelSerializer):
 
     class Meta:
         model = Contributor
-        fields = ['user', 'project', 'role']
+        fields = ['user', 'project', 'permission', 'role']
 
 
 class ProjectListSerializer(ModelSerializer):
@@ -25,6 +25,7 @@ class ProjectListSerializer(ModelSerializer):
 class ProjectDetailSerializer(ModelSerializer):
 
     issues = SerializerMethodField()
+    contributors = SerializerMethodField()
 
     class Meta:
         model = Project
@@ -58,19 +59,13 @@ class IssueDetailSerializer(ModelSerializer):
 
     def get_comments(self, instance):
         queryset = instance.comments.all()
-        serializer = CommentListSerializer(queryset, many=True)
+        serializer = CommentSerializer(queryset, many=True)
         return serializer.data
 
 
-class CommentListSerializer(ModelSerializer):
-
-    class Meta:
-        model = Comment
-        fields = ['author', 'issue', 'date_created']
-
-
-class CommentDetailSerializer(ModelSerializer):
+class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
         fields = ['author', 'issue', 'date_created', 'content']
+
