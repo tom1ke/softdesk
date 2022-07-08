@@ -16,11 +16,6 @@ class ProjectListSerializer(ModelSerializer):
         model = Project
         fields = ['title', 'author', 'type', 'description']
 
-    def create(self, validated_data):
-        project = Project.objects.create(**validated_data)
-        Contributor.objects.create(project=project, role='author', user=project.author)
-        return project
-
 
 class ProjectDetailSerializer(ModelSerializer):
 
