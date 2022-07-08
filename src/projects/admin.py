@@ -12,7 +12,7 @@ class ContributorAdmin(admin.ModelAdmin):
 
 
 class IssueAdmin(admin.ModelAdmin):
-    list_display = ('title','id', 'project', 'author', 'tag', 'status', 'date_created')
+    list_display = ('title', 'id', 'project', 'author', 'tag', 'status', 'date_created')
 
 
 class CommentAdmin(admin.ModelAdmin):
