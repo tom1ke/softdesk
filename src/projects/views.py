@@ -25,6 +25,22 @@ class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
     def get_queryset(self):
         return Contributor.objects.filter(project=self.kwargs['project_id'])
 
+    def create(self, request, *args, **kwargs):
+        contributor_data = request.data
+
+        new_contributor = Contributor.objects.create(
+            user_id=contributor_data['user'],
+            permission=contributor_data['permission'],
+            role=contributor_data['role'],
+            project_id=kwargs['project_id']
+        )
+
+        new_contributor.save()
+
+        serializer = ContributorSerializer(new_contributor)
+
+        return Response(serializer.data)
+
 
 class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
 
