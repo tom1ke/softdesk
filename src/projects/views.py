@@ -84,8 +84,9 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
 
         new_issue = Issue.objects.create(
             tag=issue_data['tag'],
-            title=issue_data['title'],
+            priority=issue_data['priority'],
             status=issue_data['status'],
+            title=issue_data['title'],
             description=issue_data['description'],
             project_id=kwargs['project_id'],
             author=self.request.user,

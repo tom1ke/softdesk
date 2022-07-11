@@ -23,10 +23,16 @@ class Contributor(models.Model):
 
 
 class Issue(models.Model):
+
+    TAG_CHOICES = [('BUG', 'BUG'), ('AMELIORATION', 'AMELIORATION'), ('TACHE', 'TACHE')]
+    PRIORITY_CHOICES = [('FAIBLE', 'FAIBLE'), ('MOYENNE', 'MOYENNE'), ('ELEVEE', 'ELEVEE')]
+    STATUS_CHOICES = [('A FAIRE', 'A FAIRE'), ('EN COURS', 'EN COURS'), ('TERMINE', 'TERMINE')]
+
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=2000, blank=True)
-    tag = models.CharField(max_length=100)
-    status = models.CharField(max_length=100)
+    tag = models.CharField(max_length=100, choices=TAG_CHOICES)
+    priority = models.CharField(max_length=100, choices=PRIORITY_CHOICES)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
     date_created = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE, related_name='issues')
     author = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
