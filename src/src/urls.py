@@ -38,7 +38,7 @@ urlpatterns = [
     path('api-browser-auth/', include('rest_framework.urls')),
     path('signup/', include('dj_rest_auth.registration.urls')),
     path('login/', TokenObtainPairView.as_view(), name='login'),
-    path('login/refresh/', TokenRefreshView.as_view(), name='refresh'),
+    path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('', include(projects.urls)),
     path('projects/<int:project_id>/', include(contributors.urls)),
     path('projects/<int:project_id>/', include(issues.urls)),
