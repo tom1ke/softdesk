@@ -124,6 +124,10 @@ class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
                 issue_id=kwargs['issue_id']
             )
 
+            issue = Issue.objects.get(id=kwargs['issue_id'])
+            if issue.project.id != kwargs['project_id']:
+                raise APIException(detail='Error : Issue not from selected project.')
+
             new_comment.save()
 
             serializer = CommentSerializer(new_comment)
