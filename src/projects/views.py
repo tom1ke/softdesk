@@ -28,20 +28,24 @@ class ContributorViewSet(MultipleSerializerMixin, ModelViewSet):
         return Contributor.objects.filter(project=self.kwargs['project_id'])
 
     def create(self, request, *args, **kwargs):
-        contributor_data = request.data
+        try:
+            contributor_data = request.data
 
-        new_contributor = Contributor.objects.create(
-            user_id=contributor_data['user'],
-            permission=contributor_data['permission'],
-            role=contributor_data['role'],
-            project_id=kwargs['project_id']
-        )
+            new_contributor = Contributor.objects.create(
+                user_id=contributor_data['user'],
+                permission=contributor_data['permission'],
+                role=contributor_data['role'],
+                project_id=kwargs['project_id']
+            )
 
-        new_contributor.save()
+            new_contributor.save()
 
-        serializer = ContributorSerializer(new_contributor)
+            serializer = ContributorSerializer(new_contributor)
 
-        return Response(serializer.data)
+            return Response(serializer.data)
+
+        except IntegrityError as error:
+            raise APIException(detail='Error : Project ID does not exist.') from error
 
 
 class ProjectViewSet(MultipleSerializerMixin, ModelViewSet):
