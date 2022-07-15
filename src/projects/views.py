@@ -1,5 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.exceptions import APIException
+from django.db import IntegrityError
 
 from .permissions import IsAuthorAndOrIsAuthenticated, IsProjectAuthorAndIsAuthenticated
 from .models import Contributor, Project, Issue, Comment
@@ -80,24 +82,28 @@ class IssueViewSet(MultipleSerializerMixin, ModelViewSet):
         return Issue.objects.filter(project=self.kwargs['project_id'])
 
     def create(self, request, *args, **kwargs):
-        issue_data = request.data
+        try:
+            issue_data = request.data
 
-        new_issue = Issue.objects.create(
-            tag=issue_data['tag'],
-            priority=issue_data['priority'],
-            status=issue_data['status'],
-            title=issue_data['title'],
-            description=issue_data['description'],
-            project_id=kwargs['project_id'],
-            author=self.request.user,
-            assignee=self.request.user
-        )
+            new_issue = Issue.objects.create(
+                tag=issue_data['tag'],
+                priority=issue_data['priority'],
+                status=issue_data['status'],
+                title=issue_data['title'],
+                description=issue_data['description'],
+                project_id=kwargs['project_id'],
+                author=self.request.user,
+                assignee=self.request.user
+            )
 
-        new_issue.save()
+            new_issue.save()
 
-        serializer = IssueListSerializer(new_issue)
+            serializer = IssueListSerializer(new_issue)
 
-        return Response(serializer.data)
+            return Response(serializer.data)
+
+        except IntegrityError as error:
+            raise APIException(detail='Error : Project ID does not exist.') from error
 
 
 class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
@@ -109,16 +115,20 @@ class CommentViewSet(MultipleSerializerMixin, ModelViewSet):
         return Comment.objects.filter(issue=self.kwargs['issue_id'])
 
     def create(self, request, *args, **kwargs):
-        comment_data = request.data
+        try:
+            comment_data = request.data
 
-        new_comment = Comment.objects.create(
-            content=comment_data['content'],
-            author=self.request.user,
-            issue_id=kwargs['issue_id']
-        )
+            new_comment = Comment.objects.create(
+                content=comment_data['content'],
+                author=self.request.user,
+                issue_id=kwargs['issue_id']
+            )
 
-        new_comment.save()
+            new_comment.save()
 
-        serializer = CommentSerializer(new_comment)
+            serializer = CommentSerializer(new_comment)
 
-        return Response(serializer.data)
+            return Response(serializer.data)
+
+        except IntegrityError as error:
+            raise APIException(detail='Error : Issue ID does not exist.') from error
