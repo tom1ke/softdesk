@@ -37,7 +37,7 @@ L'authentification fonctionne avec un système de *bearer token* (JWT). Il est n
 Vous trouverez les points de terminaison liés à l'inscription et l'authentification, ainsi que la marche à suivre sur la documentation Postman.
 
 ## Administration
-Afin d'accéder à l'interface d'administration de l'application il est nécessaire de créer un profil de *superuser*.
+Afin d'accéder à l'interface d'administration de l'API il est nécessaire de créer un profil de *superuser*.
 
 Pour ce faire, se positionner au niveau du projet Django via le terminal et utiliser la commande ```$ python manage.py createsuperuser```
 
